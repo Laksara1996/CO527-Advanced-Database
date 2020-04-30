@@ -1,35 +1,33 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
+import Button from '@material-ui/core/Button';
 
+import { Link } from 'react-router-dom';
 import * as ROUTES from '../../constant/Route';
-
 import { withFirebase } from '../firebase'
 
-import SignOut from '../accounts/Logout'
+import Appbar from './AppBar'
 
 const Test = () => (
   <div>
-    <h1>Test</h1>
-    <SignOut/>
+    <Appbar/>
     <TestForm />
   </div>
 );
 
 
-class TestFormBase extends Component {
-  constructor(props) {
-    super(props);
-
-  }
-
-  
+class TestFormBase extends Component { 
   render() {
     console.log(this.props.firebase.state.login)
 
     return (
       <div>
-          Test
+        <Link to={ROUTES.AskQuestion}>
+          <Button>
+            Ask Question
+          </Button>
+        </Link>
       </div>
     );
   }

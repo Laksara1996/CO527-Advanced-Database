@@ -15,6 +15,8 @@ const Navigation = () => (
 
         <Link to={ROUTES.TEST}/>
 
+        <Link to={ROUTES.AskQuestion}/>
+
         <SignOut/>
 
     </div>

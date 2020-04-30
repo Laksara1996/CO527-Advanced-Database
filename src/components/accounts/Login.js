@@ -8,7 +8,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
 import * as ROUTES from '../../constant/Route'
@@ -41,7 +40,6 @@ const submit = {
 
 const SignInPage = () => (
   <div>
-    <h1>SignIn</h1>
     <SignInForm />
   </div>
 );
@@ -60,10 +58,15 @@ class SignInFormBase extends Component {
       this.props.firebase
           .doSignInWithEmailAndPassword(email, password)
           .then((res) => {
-              //console.log(res);
+              //console.log("Response",res);
               this.props.firebase.state.login = true;
               this.setState({ ...INITIAL_STATE });
-              this.props.history.push(ROUTES.TEST);
+              if(this.props.firebase.state.login){
+                this.props.history.push(ROUTES.TEST);
+              }else{
+                this.props.history.push(ROUTES.AskQuestion);
+              }
+              
           })
           .catch(error => {
               this.setState({ error });
@@ -74,6 +77,7 @@ class SignInFormBase extends Component {
       this.setState({ [event.target.name]: event.target.value });
   };
   render() {
+    //console.log(this.props.firebase)
     const { email, password, error } = this.state;
     const isInvalid = password === '' || email === '';
 
@@ -85,9 +89,6 @@ class SignInFormBase extends Component {
           <Avatar style={avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-                  </Typography>
           <form onSubmit={this.onSubmit} style={form}>
             <TextField
               name="email"

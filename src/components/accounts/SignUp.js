@@ -14,10 +14,10 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 
 import { withFirebase } from '../firebase'
+import {db} from '../firebase/init';
 
 const SignUpPage = () => (
   <div>
-    <h1>SignUp</h1>
     <SignUpForm />
   </div>
 );
@@ -72,18 +72,22 @@ class SignUpFormBase extends Component {
         })
         this.props.firebase.state.login = true;
         console.log(this.state.uid);
-        // db.collection("Bus-Owners")
-        //     .doc(this.state.uid)
-        //     .set({
-        //         firstname: this.state.firstname,
-        //         lastname: this.state.lastname,
-        //         email: this.state.email,
+        db.collection("Users")
+            .doc(this.state.uid)
+            .set({
+                firstname: this.state.firstname,
+                lastname: this.state.lastname,
+                email: this.state.email,
 
-        //     })
+            })
       })
       .then(authUser => {
         this.setState({ ...INITIAL_STATE });
-        this.props.history.push(ROUTES.TEST);
+        if(this.props.firebase.state.login){
+          this.props.history.push(ROUTES.TEST);
+        }else{
+          this.props.history.push(ROUTES.AskQuestion);
+        }
       })
       .catch(error => {
         this.setState({ error });
@@ -96,7 +100,7 @@ class SignUpFormBase extends Component {
   };
 
   render() {
-    console.log(this.props.firebase)
+    //console.log(this.props.firebase)
     const {
       firstname,
       lastname,
@@ -120,7 +124,7 @@ class SignUpFormBase extends Component {
           </Avatar>
           <Typography component="h1" variant="h5" style={{ marginBottom: 20 }}>
             Sign up
-                    </Typography>
+          </Typography>
           <form onSubmit={this.onSubmit} style={form} noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -187,7 +191,7 @@ class SignUpFormBase extends Component {
               style={submit}
             >
               Sign Up
-                        </Button>
+            </Button>
 
             <Grid container justify="flex-end">
               <Grid item>
