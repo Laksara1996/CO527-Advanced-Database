@@ -36,14 +36,20 @@ const useStyles = makeStyles({
 
 export const LoginCard = (props)=> {
   const classes = useStyles();
-  
+  const onSuccessSignIn = (response)=>{
+    
+    console.log(response.profileObj.imageUrl);
+  }
+  const onFailureSignIn = (response)=>{
+    console.log(response);
+  }
   return (
     <Card className={classes.root}>
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           Login To Origyn Healthcare
         </Typography>
-        <LoginButton className={classes.loginbtn}/>
+        <LoginButton className={classes.loginbtn} onLoginSuccess={onSuccessSignIn} onLoginFailure={onFailureSignIn}/>
         <Typography className={classes.pos} color="textSecondary">
           Not a member yet? &nbsp;
           <Button variant="outlined" color="primary" size="small" >Join now</Button>
