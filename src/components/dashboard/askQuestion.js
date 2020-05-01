@@ -1,167 +1,114 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { compose } from 'recompose';
-import { makeStyles } from '@material-ui/core/styles';
+
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Container from '@material-ui/core/Container';
 
-import { Link } from 'react-router-dom';
-import * as ROUTES from '../../constant/Route';
-import { withFirebase } from '../firebase'
+import AppBar from './appBar'
+import * as ROUTES from '../../constant/Route'
 
-import Appbar from './AppBar'
+
+const form = {
+    width: '100%',
+    marginTop: 10,
+}
+
+const submit = {
+    marginTop: 20,
+    backgroundColor: "lightblue",
+    color: "black"
+}
 
 const AskQuestion = () => (
-  <div>
-    <Appbar/>
-    <AskQuestionFormBase />
-  </div>
+    <div>
+        <AppBar />
+        <AskQuestionForm />
+    </div>
 );
+const INITIAL_STATE = {
+    title: '',
+    body: '',
+    tags: '',
+};
+class AskQuestionFormBase extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { ...INITIAL_STATE };
+    }
+    onSubmit = event => {
+        const { title, body, tags } = this.state;
+        console.log(title, body, tags);
+        event.preventDefault();
+    };
+    onChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
+    render() {
+        const { title, body, tags } = this.state;
 
-
-const root = {
-    display: 'flex',
-    flexWrap: 'wrap',
-  }
-
-const textField = {
-    marginLeft: 20,
-    marginRight: 20,
-    width: '25ch',
+        return (
+            <Container component="main" maxWidth="xs" >
+                <form onSubmit={this.onSubmit} style={form}>
+                    <TextField
+                        name="title"
+                        value={title}
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="Title"
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        autoFocus
+                        helperText="Be specific and imagine you’re asking a question to another person"
+                    />
+                    <TextField
+                        name="body"
+                        value={body}
+                        onChange={this.onChange}
+                        type="body"
+                        placeholder="Body"
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        autoFocus
+                        helperText="Include all the information someone would need to answer your question"
+                    />
+                    <TextField
+                        name="tags"
+                        value={tags}
+                        onChange={this.onChange}
+                        type="tags"
+                        placeholder="Tags"
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        autoFocus
+                        helperText="Add up to 5 tags to describe what your question is about"
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        style={submit}
+                    >
+                        Ask Question
+                      </Button>
+                </form>
+            </Container>
+        );
+    }
 }
-
-
-class AskQuestionFormBase extends Component { 
-  render() {
-    return (
-      <div className={root}>
-        <div>
-          <TextField
-            id="standard-full-width"
-            label="Label"
-            style={{ margin: 8 }}
-            placeholder="Placeholder"
-            helperText="Full width!"
-            fullWidth
-            margin="normal"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <TextField
-            label="None"
-            id="margin-none"
-            defaultValue="Default Value"
-            className={textField}
-            helperText="Some important text"
-          />
-          <TextField
-            label="Dense"
-            id="margin-dense"
-            defaultValue="Default Value"
-            className={textField}
-            helperText="Some important text"
-            margin="dense"
-          />
-          <TextField
-            label="Normal"
-            id="margin-normal"
-            defaultValue="Default Value"
-            className={textField}
-            helperText="Some important text"
-            margin="normal"
-          />
-        </div>
-        <div>
-          <TextField
-            id="filled-full-width"
-            label="Label"
-            style={{ margin: 8 }}
-            placeholder="Placeholder"
-            helperText="Full width!"
-            fullWidth
-            margin="normal"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            variant="filled"
-          />
-          <TextField
-            label="None"
-            id="filled-margin-none"
-            defaultValue="Default Value"
-            className={textField}
-            helperText="Some important text"
-            variant="filled"
-          />
-          <TextField
-            label="Dense"
-            id="filled-margin-dense"
-            defaultValue="Default Value"
-            className={textField}
-            helperText="Some important text"
-            margin="dense"
-            variant="filled"
-          />
-          <TextField
-            label="Normal"
-            id="filled-margin-normal"
-            defaultValue="Default Value"
-            className={textField}
-            helperText="Some important text"
-            margin="normal"
-            variant="filled"
-          />
-        </div>
-        <div>
-          <TextField
-            id="outlined-full-width"
-            label="Label"
-            style={{ margin: 8 }}
-            placeholder="Placeholder"
-            helperText="Full width!"
-            fullWidth
-            margin="normal"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            variant="outlined"
-          />
-          <TextField
-            label="None"
-            id="outlined-margin-none"
-            defaultValue="Default Value"
-            className={textField}
-            helperText="Some important text"
-            variant="outlined"
-          />
-          <TextField
-            label="Dense"
-            id="outlined-margin-dense"
-            defaultValue="Default Value"
-            className={textField}
-            helperText="Some important text"
-            margin="dense"
-            variant="outlined"
-          />
-          <TextField
-            label="Normal"
-            id="outlined-margin-normal"
-            defaultValue="Default Value"
-            className={textField}
-            helperText="Some important text"
-            margin="normal"
-            variant="outlined"
-          />
-        </div>
-      </div>
-    );
-  }
-}
-
 const AskQuestionForm = compose(
-  withRouter,
-  withFirebase,
+    withRouter,
 )(AskQuestionFormBase);
-
 export default AskQuestion;
 export { AskQuestionForm };

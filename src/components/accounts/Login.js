@@ -1,157 +1,68 @@
-import React, { Component } from 'react';
-import { withRouter, Link } from 'react-router-dom';
-import { compose } from 'recompose';
-
-import Avatar from '@material-ui/core/Avatar';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 
+import { LoginButton } from './GoogleSignIn';
+import { Link } from 'react-router-dom';
 import * as ROUTES from '../../constant/Route'
 
-import {withFirebase} from '../firebase'
+const useStyles = makeStyles({
+  root: {
+    minWidth: 275,
+    maxWidth: 500,
+    textAlign: 'center',
+    margin: 200,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  bullet: {
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)',
+  },
+  title: {
+    fontSize: 20,
+    color: 'black',
+    textDecoration: 'Bold',
+    textAlign: 'center',
+  },
+  loginbtn: {
+    width: 400,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+});
 
-
-const paper = {
-  marginTop: 50,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-}
-
-const avatar = {
-  margin: 1,
-  backgroundColor: 'red',
-}
-
-const form = {
-  width: '100%',
-  marginTop: 10,
-}
-
-const submit = {
-  marginTop: 20,
-  backgroundColor: "lightblue",
-  color: "black"
-}
-
-const SignInPage = () => (
-  <div>
-    <SignInForm />
-  </div>
-);
-const INITIAL_STATE = {
-  email: '',
-  password: '',
-  error: null,
-};
-class SignInFormBase extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { ...INITIAL_STATE };
+export const Login = (props) => {
+  const classes = useStyles();
+  const onSuccessSignIn = (response) => {
+    props.history.push(ROUTES.TEST);
+    console.log(response.profileObj.imageUrl);
   }
-  onSubmit = event => {
-      const { email, password } = this.state;
-      this.props.firebase
-          .doSignInWithEmailAndPassword(email, password)
-          .then((res) => {
-              //console.log("Response",res);
-              this.props.firebase.state.login = true;
-              this.setState({ ...INITIAL_STATE });
-              if(this.props.firebase.state.login){
-                this.props.history.push(ROUTES.TEST);
-              }else{
-                this.props.history.push(ROUTES.AskQuestion);
-              }
-              
-          })
-          .catch(error => {
-              this.setState({ error });
-          });
-      event.preventDefault();
-  };
-  onChange = event => {
-      this.setState({ [event.target.name]: event.target.value });
-  };
-  render() {
-    //console.log(this.props.firebase)
-    const { email, password, error } = this.state;
-    const isInvalid = password === '' || email === '';
-
-    return (
-
-      <Container component="main" maxWidth="xs" >
-        <CssBaseline />
-        <div style={paper}>
-          <Avatar style={avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <form onSubmit={this.onSubmit} style={form}>
-            <TextField
-              name="email"
-              value={email}
-              onChange={this.onChange}
-              type="text"
-              placeholder="Email Address"
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              name="password"
-              value={password}
-              onChange={this.onChange}
-              type="password"
-              placeholder="Password"
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              autoComplete="email"
-              autoFocus
-            />
-            <Button
-              disabled={isInvalid}
-              type="submit"
-              fullWidth
-              variant="contained"
-              style={submit}
-            >
-              Sign In
-                      </Button>
-          </form>
-          <Button
-            disabled={isInvalid}
-            type="submit"
-            fullWidth
-            variant="contained"
-            style={submit}
-          >
-            Sign in with Google
-                  </Button>
-          <Grid item>
-            <Link to={ROUTES.SIGN_UP} variant="body2">
-              <div style={{ marginTop: 20 }}>
-                Don't have an account? Sign Up
-                          </div>
-            </Link>
-          </Grid>
-          {error && <p>{error.message}</p>}
-        </div>
-      </Container>
-
-    );
+  const onFailureSignIn = (response) => {
+    console.log(response);
   }
+  return (
+    <Card className={classes.root}>
+      <CardContent>
+        <Typography className={classes.title} color="textSecondary" gutterBottom>
+          Login To Origyn Healthcare
+        </Typography>
+        <LoginButton className={classes.loginbtn} onLoginSuccess={onSuccessSignIn} onLoginFailure={onFailureSignIn} />
+        <Typography className={classes.pos} color="textSecondary">
+          Not a member yet? &nbsp;
+          <Button variant="outlined" color="primary" size="small" >Join now</Button>
+        </Typography>
+
+      </CardContent>
+      <CardActions>
+
+      </CardActions>
+    </Card>
+  );
 }
-const SignInForm = compose(
-  withRouter,
-  withFirebase,
-)(SignInFormBase);
-export default SignInPage;
-export { SignInForm };

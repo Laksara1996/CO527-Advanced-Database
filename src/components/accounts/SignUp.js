@@ -1,222 +1,80 @@
-import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
-
-import * as ROUTES from '../../constant/Route';
-
-import { TextField } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
-import Container from '@material-ui/core/Container';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import { red } from '@material-ui/core/colors';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 
-import { withFirebase } from '../firebase'
-import {db} from '../firebase/init';
+import {LoginButton} from './GoogleSignIn';
 
-const SignUpPage = () => (
-  <div>
-    <SignUpForm />
-  </div>
-);
-const paper = {
-  marginTop: 50,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-}
+const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: 500,
+  },
+  media: {
+    width:200,
+    height:200,
+    marginRight:'auto',
+  marginLeft:'auto',
+    borderRadius:'50%', // 16:9
+  },
+  loginbtn:{
+    width:400,
+  },
+  avatar: {
+    backgroundColor: red[500],
+  },
+}));
 
-const avatar = {
-  margin: 1,
-  backgroundColor: 'red',
-}
-
-const form = {
-  width: '100%',
-  marginTop: 10,
-}
-
-const submit = {
-  marginTop: 20,
-  backgroundColor: "lightblue",
-  color: "black"
-}
-
-const INITIAL_STATE = {
-  firstname: '',
-  lastname: '',
-  email: '',
-  password: '',
-  error: null,
-  uid: ''
-};
-
-class SignUpFormBase extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { ...INITIAL_STATE };
+export default function SignUp() {
+  const classes = useStyles();
+  const [isSignedIn, setSignedIn] = React.useState(false);
+  const [dpurl,setDpurl]=React.useState("https://static.boredpanda.com/blog/wp-content/uploads/2014/12/Top-10-photographers-for-travel-portraits16__700.jpg");
+  
+  const onSuccessSignIn = (response)=>{
+    setDpurl(response.profileObj.imageUrl);
+    setSignedIn(true);
+    console.log(response.profileObj.imageUrl);
   }
-
-  onSubmit = event => {
-    //console.log(email);
-    const { email, password } = this.state;
-    this.props.firebase
-      .doCreateUserWithEmailAndPassword(email, password)
-      .then((res) => {
-
-        this.setState({
-          uid: res.user.uid
-        })
-        this.props.firebase.state.login = true;
-        console.log(this.state.uid);
-        db.collection("Users")
-            .doc(this.state.uid)
-            .set({
-                firstname: this.state.firstname,
-                lastname: this.state.lastname,
-                email: this.state.email,
-
-            })
-      })
-      .then(authUser => {
-        this.setState({ ...INITIAL_STATE });
-        if(this.props.firebase.state.login){
-          this.props.history.push(ROUTES.TEST);
-        }else{
-          this.props.history.push(ROUTES.AskQuestion);
+  const onFailureSignIn = (response)=>{
+    console.log(response);
+  }
+  return (
+    <Card className={classes.root}>
+      <CardHeader
+        title="SignUp to Origyn Healthcare"
+      />
+      <CardMedia
+        className={classes.media}
+        image={dpurl}
+      />
+      <CardContent>
+        {isSignedIn?  
+        <Button variant="outlined" size="large" color="primary">Continue To SignUp</Button>
+        :
+        <>
+        <Typography variant="body2" color="textSecondary" component="p">
+          First SignIn to your Google Account
+        </Typography>
+        <LoginButton className={classes.loginbtn} onLoginSuccess={onSuccessSignIn} onLoginFailure={onFailureSignIn}/>  
+        </>
         }
-      })
-      .catch(error => {
-        this.setState({ error });
-      });
-    event.preventDefault();
-  }
-
-  onChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-
-  render() {
-    //console.log(this.props.firebase)
-    const {
-      firstname,
-      lastname,
-      email,
-      password,
-      error,
-    } = this.state;
-
-    const isInvalid =
-      firstname === '' ||
-      lastname === '' ||
-      password === '' ||
-      email === '';
-
-    return (
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div style={paper}>
-          <Avatar style={avatar} >
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5" style={{ marginBottom: 20 }}>
-            Sign up
-          </Typography>
-          <form onSubmit={this.onSubmit} style={form} noValidate>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  name="firstname"
-                  value={firstname}
-                  onChange={this.onChange}
-                  type="text"
-                  autoComplete="firstname"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  autoFocus
-                  placeholder="First Name"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  name="lastname"
-                  value={lastname}
-                  onChange={this.onChange}
-                  type="text"
-                  autoComplete="lastname"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  autoFocus
-                  placeholder="Last Name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  name="email"
-                  value={email}
-                  onChange={this.onChange}
-                  type="text"
-                  placeholder="Email Address"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  name="password"
-                  value={password}
-                  onChange={this.onChange}
-                  type="password"
-                  placeholder="Password"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  autoComplete="current-password"
-                />
-              </Grid>
-            </Grid>
-
-            <Button
-              disabled={isInvalid}
-              type="submit"
-              fullWidth
-              variant="contained"
-              style={submit}
-            >
-              Sign Up
-            </Button>
-
-            <Grid container justify="flex-end">
-              <Grid item>
-                <Link to={ROUTES.LOGIN} variant="body2">
-                  <div style={{ marginTop: 20 }}>
-                    Already have an account? Sign in
-                  </div>
-
-                </Link>
-              </Grid>
-            </Grid>
-
-            {error && <p>{error.message}</p>
-            }
-          </form >
-        </div>
-      </Container >
-    );
-  }
+      </CardContent>
+      <CardActions disableSpacing>
+               
+      </CardActions>
+      </Card>
+  );
 }
-
-const SignUpForm = compose(
-  withRouter,
-  withFirebase,
-)(SignUpFormBase);
-
-export default SignUpPage;
-export { SignUpForm };

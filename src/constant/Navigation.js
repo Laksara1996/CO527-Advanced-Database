@@ -3,9 +3,6 @@ import { Link } from 'react-router-dom';
 
 import * as ROUTES from './Route';
 
-import SignOut from '../components/accounts/Logout'
-
-
 const Navigation = () => (
     <div>
 
@@ -16,8 +13,6 @@ const Navigation = () => (
         <Link to={ROUTES.TEST}/>
 
         <Link to={ROUTES.AskQuestion}/>
-
-        <SignOut/>
 
     </div>
 );

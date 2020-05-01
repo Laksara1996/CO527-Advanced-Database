@@ -5,9 +5,8 @@ import Button from '@material-ui/core/Button';
 
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../../constant/Route';
-import { withFirebase } from '../firebase'
 
-import Appbar from './AppBar'
+import Appbar from './appBar'
 
 const Test = () => (
   <div>
@@ -19,8 +18,6 @@ const Test = () => (
 
 class TestFormBase extends Component { 
   render() {
-    console.log(this.props.firebase.state.login)
-
     return (
       <div>
         <Link to={ROUTES.AskQuestion}>
@@ -35,7 +32,6 @@ class TestFormBase extends Component {
 
 const TestForm = compose(
   withRouter,
-  withFirebase,
 )(TestFormBase);
 
 export default Test;
