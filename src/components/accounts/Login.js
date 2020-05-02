@@ -38,7 +38,7 @@ export const LoginCard = (props)=> {
   const classes = useStyles();
   const onSuccessSignIn = (response)=>{
     
-    console.log(response.profileObj.imageUrl);
+    console.log(response);
   }
   const onFailureSignIn = (response)=>{
     console.log(response);

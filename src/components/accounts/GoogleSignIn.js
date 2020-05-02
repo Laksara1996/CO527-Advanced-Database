@@ -24,6 +24,8 @@ const LoginButton = props=>{
     <GoogleLogin
         clientId="821281703539-vgdo19eh7l5gk81sgj0v13si38onqt7s.apps.googleusercontent.com"
         buttonText="Continue with Google"
+        responseType='code'
+        prompt='consent'
         render={renderProps=>(
         <Button variant="contained" color="secondary" 
         className={classes.button} startIcon={<AccountCircleIcon/>}
@@ -35,7 +37,7 @@ const LoginButton = props=>{
         )}
         onSuccess={props.onLoginSuccess}
         onFailure={props.onLoginFailure}
-        cookiePolicy={'single_host_origin'}
+        
     />
     );
 }
