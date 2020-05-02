@@ -6,8 +6,10 @@ import * as ROUTES from './constant/Route';
 import SignUp from './components/accounts/SignUp';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Test from './components/dashboard/test'
+import MAINPAGE from './components/dashboard/mainPage'
 import AskQuestion from './components/dashboard/askQuestion'
+
+import TEST from './components/dashboard/test'
 
 const useStyles = makeStyles({
   contextdiv: {
@@ -33,8 +35,10 @@ const App = () => {
         <Route path={ROUTES.LOGIN} component={Login} />
         <Route path={ROUTES.SIGN_UP} component={SignUp} />
 
-        <Route path={ROUTES.TEST} component={Test} />
+        <Route path={ROUTES.MAINPAGE} component={MAINPAGE} />
         <Route path={ROUTES.AskQuestion} component={AskQuestion} />
+
+        <Route path={ROUTES.TEST} component={TEST} />
       </div>
 
     </Router>

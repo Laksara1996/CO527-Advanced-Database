@@ -41,7 +41,7 @@ const useStyles = makeStyles({
 export const Login = (props) => {
   const classes = useStyles();
   const onSuccessSignIn = (response) => {
-    props.history.push(ROUTES.TEST);
+    props.history.push(ROUTES.MAINPAGE);
     console.log(response.profileObj.imageUrl);
   }
   const onFailureSignIn = (response) => {
