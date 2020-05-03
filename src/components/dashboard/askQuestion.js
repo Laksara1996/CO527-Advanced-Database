@@ -13,7 +13,7 @@ import 'react-dropdown/style.css';
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 
-import AppBar from './appBar'
+import AppBar from './AppBar'
 import * as ROUTES from '../../constant/Route'
 
 
