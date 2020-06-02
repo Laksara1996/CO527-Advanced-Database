@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 
 import { LoginButton } from './GoogleSignIn';
 import { Link } from 'react-router-dom';
-import * as ROUTES from '../../constant/Route'
+
 
 const useStyles = makeStyles({
   root: {
@@ -41,7 +41,7 @@ const useStyles = makeStyles({
 export const Login = (props) => {
   const classes = useStyles();
   const onSuccessSignIn = (response) => {
-    props.history.push(ROUTES.MAINPAGE);
+    props.history.push('/home');
     console.log(response.profileObj.imageUrl);
   }
   const onFailureSignIn = (response) => {
