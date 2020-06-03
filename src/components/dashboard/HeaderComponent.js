@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Button } from 'reactstrap';
+import { Navbar, NavbarBrand, Nav, NavbarToggler, Input, Collapse, NavItem, Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-import { MDBInput } from 'mdbreact';
 
 // import Logo from '../assests/images/logo.png';
 
@@ -59,11 +58,12 @@ class Header extends Component {
 									</NavLink>
 								</NavItem>
 								<NavItem>
-									<MDBInput
-										hint="Search"
-										type="text"
-										containerClass="active-pink active-pink-2 mt-0 mb-3"
-									/>
+									<NavLink className="nav-link" to="/profile">
+										<span className="fa fa-user fag-lg">Profile</span>
+									</NavLink>
+								</NavItem>
+								<NavItem>
+									<Input type="search" name="search" id="search" placeholder="search" />
 								</NavItem>
 							</Nav>
 

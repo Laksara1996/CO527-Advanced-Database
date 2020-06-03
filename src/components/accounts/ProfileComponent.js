@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Nav, Container, NavItem, NavLink, Card, Col, CardImg, Row, CardBody, CardTitle } from 'reactstrap';
+import { Nav, Container, NavItem, NavLink, Card, CardImg, Row } from 'reactstrap';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import image1 from '../../assests/profile/pr1.jpg';
@@ -13,15 +13,15 @@ class Profile extends Component {
 						<div className="row">
 							<div className="col">
 								<NavItem>
-									<NavLink active href="/profile" className="nav-link">
+									<NavLink  href="/profile" className="nav-link">
 										Profile
 									</NavLink>
 								</NavItem>
 							</div>
 							<div className="col">
 								<NavItem>
-									<NavLink active href="/editprofile">
-										Edit Profile
+									<NavLink  href="/editprofile">
+										EditProfile
 									</NavLink>
 								</NavItem>
 							</div>
