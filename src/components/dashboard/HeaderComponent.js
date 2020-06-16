@@ -13,7 +13,6 @@ class Header extends Component {
 		};
 		this.toggleNav = this.toggleNav.bind(this);
 		this.toggleModal = this.toggleModal.bind(this);
-		this.handleLogin = this.handleLogin.bind(this);
 	}
 
 	toggleNav() {
@@ -26,19 +25,6 @@ class Header extends Component {
 		this.setState({
 			isModalOpen: !this.state.isModalOpen
 		});
-	}
-
-	handleLogin(event) {
-		this.toggleModal();
-		alert(
-			'Username: ' +
-				this.username.value +
-				' Password: ' +
-				this.password.value +
-				' Remember: ' +
-				this.remember.checked
-		);
-		event.preventDefault();
 	}
 
 	render() {
@@ -63,10 +49,9 @@ class Header extends Component {
 									</NavLink>
 								</NavItem>
 								<NavItem>
-									<Input type="search" name="search" id="search" placeholder="search" />
+									<Input type="search" name="search" placeholder="search" id="search" len />
 								</NavItem>
 							</Nav>
-
 							<Nav className="ml-auto" navbar>
 								<NavItem>
 									<NavLink className="nav-link" to="/login">

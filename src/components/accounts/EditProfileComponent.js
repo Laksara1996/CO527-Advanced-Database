@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, Label, Input, Col } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Col, Nav, NavItem, NavLink } from 'reactstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from 'react-avatar';
 import Button from '@material-ui/core/Button';
@@ -8,6 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 
 import image1 from '../../assests/profile/pr1.jpg';
+import './AccoutStyles.css';
 
 const useStyles = makeStyles((theme) => ({
 	uploadRoot: {
@@ -68,16 +69,32 @@ class EditProfile extends Component {
 	render() {
 		return (
 			<div className="container">
-				<div className="row">
+				<div className="row row-header">
+					<Nav pills>
+						<NavItem>
+							<NavLink href="/profile" className="nav-link">
+								Profile
+							</NavLink>
+						</NavItem>
+						<NavItem>
+							<NavLink href="/editprofile" active>
+								Edit Profile
+							</NavLink>
+						</NavItem>
+					</Nav>
+				</div>
+				<div className="row row-content">
 					<div className="col-12 col-md-5 m-1">
-						<Avatar
-							style={{ marginLeft: 50, marginTop: 100 }}
-							src={image1}
-							name="Wim Mostmans"
-							size="150"
-							round={true}
-						/>
-						<div className={useStyles.uploadRoot}>
+						<div className="row justify-content-center">
+							<Avatar
+								style={{ marginLeft: 50, marginTop: 100 }}
+								src={image1}
+								name="Wim Mostmans"
+								size="300"
+								round={true}
+							/>
+						</div>
+						<div className="row justify-content-center">
 							<input
 								accept="image/*"
 								onChange={(event) => {
@@ -181,11 +198,7 @@ class EditProfile extends Component {
 										</FormGroup>
 										<FormGroup row>
 											<Col md={{ size: 10, offset: 2 }}>
-												<Button
-													type="submit"
-													color="primary"
-													variant="contained"
-												>
+												<Button type="submit" color="primary" variant="contained">
 													Save Profile
 												</Button>
 											</Col>
