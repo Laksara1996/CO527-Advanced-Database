@@ -1,13 +1,30 @@
 import React, { Component } from 'react';
 
 import { Link } from 'react-router-dom';
-import { Container, Button, Card, CardImg } from 'reactstrap';
+import { Container, Button, Card, CardTitle } from 'reactstrap';
 
 import './DashboardStyles.css';
-import image1 from '../../assests/profile/pr1.jpg';
+
+function RenderQuestionItem({ question }) {
+	return (
+		<Card>
+			<Link to={`/home/${question.id}`}>
+				<CardTitle heading>{question.name}</CardTitle>
+			</Link>
+		</Card>
+	);
+}
 
 class Home extends Component {
 	render() {
+		console.log(this.props);
+		// const questions = this.props.questions.map((question) => {
+		// 	return (
+		// 		<div key={question.id} className="col-12 col-md-5 m-1">
+		// 			<RenderQuestionItem question={question} />
+		// 		</div>
+		// 	);
+		// });
 		return (
 			<div>
 				<Container>
@@ -24,9 +41,7 @@ class Home extends Component {
 						</div>
 					</div>
 					<div className="row row-content">
-						<Card className="col-12">
-							<CardImg top src={image1} alt="None" />
-						</Card>
+						{/* {questions} */}
 					</div>
 				</Container>
 			</div>

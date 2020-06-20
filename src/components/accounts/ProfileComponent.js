@@ -1,12 +1,42 @@
 import React, { Component } from 'react';
-import { Nav, Container, NavItem, NavLink, Card, CardImg, Row } from 'reactstrap';
+import { Nav, Container, NavItem, NavLink, Card, CardImg, CardTitle } from 'reactstrap';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import image1 from '../../assests/profile/pr1.jpg';
 import './AccoutStyles.css';
 
+function RenderAnswerItem({ answer }) {
+	return (
+		<Card>
+			<CardTitle heading>{answer.answer}</CardTitle>
+		</Card>
+	);
+}
+
+function RenderQuestionItem({ question }) {
+	return (
+		<Card>
+			<CardTitle heading>{question.question}</CardTitle>
+		</Card>
+	);
+}
+
 class Profile extends Component {
 	render() {
+		// const answers = this.props.answers.map((answer) => {
+		// 	return (
+		// 		<div key={answer.id} className="col-12 col-md-5 m-1">
+		// 			<RenderAnswerItem answer={answer} />
+		// 		</div>
+		// 	);
+		// });
+		// const questions = this.props.questions.map((question) => {
+		// 	return (
+		// 		<div key={question.id} className="col-12 col-md-5 m-1">
+		// 			<RenderQuestionItem question={question} />
+		// 		</div>
+		// 	);
+		// });
 		return (
 			<Container>
 				<div className="row row-header">
@@ -35,17 +65,13 @@ class Profile extends Component {
 					<div className="col-12">
 						<h4>Answers (0)</h4>
 					</div>
-					<Card className="col-12">
-						<CardImg top src={image1} alt="None" />
-					</Card>
+					{/* {answers} */}
 				</div>
 				<div className="row row-content">
 					<div className="col-12">
 						<h4>Questions (0)</h4>
 					</div>
-					<Card className="col-12">
-						<CardImg top src={image1} alt="None" />
-					</Card>
+					{/* {questions} */}
 				</div>
 			</Container>
 		);

@@ -103,7 +103,7 @@ class AskQuestion extends Component {
 				<div className="col-12 col-md-9">
 					<Form onSubmit={this.handleSubmit}>
 						<FormGroup row>
-							<Label htmlFor="firstname" md={2}>
+							<Label htmlFor="title" md={2}>
 								<strong>Title</strong>
 							</Label>
 							<Col md={10}>
@@ -118,7 +118,7 @@ class AskQuestion extends Component {
 							</Col>
 						</FormGroup>
 						<FormGroup row>
-							<Label htmlFor="title" md={2}>
+							<Label htmlFor="body" md={2}>
 								<strong>Body</strong>
 							</Label>
 							<Col md={10}>
